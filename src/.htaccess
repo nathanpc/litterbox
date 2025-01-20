@@ -1,0 +1,26 @@
+# Ensure we only use index.php for the index page.
+DirectoryIndex index.php
+
+# Setup PHP configuration for debug.
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag log_errors on
+php_value error_reporting -1
+php_value error_log "/dev/stderr"
+
+# Ensure we can upload files large enough.
+php_value upload_max_filesize 710000000
+php_value post_max_size 720000000
+
+# Protect the .htaccess file.
+<FilesMatch "\.htaccess$">
+	Order Allow,Deny
+	Deny from all
+</FilesMatch>
+
+# Protect the .gitignore file.
+<FilesMatch "\.gitignore$">
+	Order Allow,Deny
+	Deny from all
+</FilesMatch>
