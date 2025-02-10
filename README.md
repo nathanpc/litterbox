@@ -23,11 +23,21 @@ services:
     ports:
       - '8001:80'
     volumes:
-      - ./uploads:/var/www/localhost/htdocs/u
+      - ./uploads:/app/u
+    environment:
+      TOTP_SECRET: 'changeme'
 ```
 
 And after running `docker compose up -d` you should have the system up and
 running.
+
+If you need the base32-encoded secret key for the TOTP authentication mechanism
+you can simply open a shell into the application's container and execute the
+following command:
+
+```shell
+php /app/totp.php
+```
 
 ## License
 

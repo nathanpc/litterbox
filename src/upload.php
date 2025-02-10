@@ -6,6 +6,8 @@
  * @author Nathan Campos <nathan@innoveworkshop.com>
  */
 
+require_once __DIR__ . '/totp.php';
+
 /**
  * Directory where all uploaded files will be stored.
  */
@@ -100,6 +102,13 @@ function generate_fname(string $fn): string {
  * @param string $otp  One time password for authentication.
  */
 function handle_upload(array $file, string $otp): void {
+	// Check if TOTP is valid.
+	if (OTP\get_token() !== $otp) {
+		http_response_code(401);
+		echo 'The provided OTP token is not valid.';
+		return;
+	}
+
 	// Perform upload sanity checks.
 	if (!upload_sanity_checks($file))
 		return;
@@ -110,5 +119,5 @@ function handle_upload(array $file, string $otp): void {
 
 	// Print the success message.
 	echo 'The file has been successfully uploaded and is available as <a ' .
-		"href=\"/u/$fname\">$fname</a>";
+		"href=\"/u/$fname\">$fname</a>.";
 }
