@@ -1,4 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php
+/**
+ * index.php
+ * Website's homepage and upload handler.
+ *
+ * @author Nathan Campos <nathan@innoveworkshop.com>
+ */
+
+require_once __DIR__ . '/upload.php';
+
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -113,6 +123,12 @@
 
 			<!-- Content row. -->
 			<tr>
+				<?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+					<td colspan="2">
+						<?php handle_upload($_FILES['file'],
+							$_POST['otp'] ?? $_GET['otp'] ?? ''); ?>
+					</td>
+				<?php } else { ?>
 				<td width="300">
 					<!-- Project information -->
 					<table>
@@ -137,7 +153,7 @@
 
 				<td width="300">
 					<!-- File upload form. -->
-					<form method="POST" action="/">
+					<form  method="POST" enctype="multipart/form-data" action="/">
 						<center>
 							<input type="file" name="file" id="file" size="25">
 							<br>
@@ -147,6 +163,7 @@
 						</center>
 					</form>
 				</td>
+				<?php } ?>
 			</tr>
 
 			<tr>
