@@ -25,6 +25,12 @@ php_value post_max_size 720000000
 	Deny from all
 </FilesMatch>
 
+# Prevent execution of scripts inside the upload directory.
+<If "%{REQUEST_URI} =~ m#^/u/.*\.(php5|php4|php|php3|php2|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi)#">
+	ForceType text/plain
+	SetHandler text/plain
+</If>
+
 # Pretty directory listing.
 <IfModule mod_autoindex.c>
 	IndexOptions IgnoreCase FancyIndexing FoldersFirst Charset=UTF-8 NameWidth=* DescriptionWidth=* SuppressHTMLPreamble SuppressDescription
